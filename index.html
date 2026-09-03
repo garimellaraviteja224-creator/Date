@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bujji Date Replay ❤️</title>
+<style>
+:root{--bg:#07111f;--card:#0e1d31;--text:#f7f3ed;--muted:#aebbd0;--accent:#ffb7c9;--accent2:#ffd7a8}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% 0%,#173454 0%,var(--bg) 55%);color:var(--text)}
+body{overflow-x:hidden}
+#app{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.screen{width:min(480px,100%);min-height:calc(100vh - 40px);display:none;flex-direction:column;justify-content:center;text-align:center;position:relative}
+.screen.active{display:flex;animation:fade .65s ease}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.badge{font-size:.75rem;letter-spacing:2px;color:var(--accent2);margin-bottom:14px}
+h1{font-size:clamp(2.1rem,9vw,3.3rem);line-height:1.05;margin:0 0 16px}
+h2{font-size:2rem;margin:0 0 16px}
+p{font-size:1.08rem;line-height:1.7;color:#e9edf5;margin:8px 0}
+.small{font-size:.88rem;color:var(--muted)}
+.card{background:rgba(14,29,49,.9);border:1px solid rgba(255,255,255,.09);border-radius:28px;padding:28px 22px;box-shadow:0 20px 70px rgba(0,0,0,.3);backdrop-filter:blur(12px)}
+button{border:0;border-radius:999px;padding:14px 22px;font-size:1rem;font-weight:700;background:var(--accent);color:#301622;cursor:pointer;margin:9px 4px;box-shadow:0 8px 25px rgba(255,183,201,.2)}
+button.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.2);box-shadow:none}
+.heart{font-size:4rem;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.14)}}
+.choices{display:grid;gap:10px;margin-top:18px}
+.choice{width:100%;margin:0;background:#162941;color:#fff;border:1px solid rgba(255,255,255,.08)}
+.reveal{display:none;margin-top:18px}
+.reveal.show{display:block;animation:fade .5s ease}
+.progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);transition:.4s;width:0;z-index:10}
+.scene-icon{font-size:4rem;margin-bottom:10px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.stat{padding:15px;border-radius:18px;background:#13263e}
+.stat b{display:block;font-size:1.35rem;margin-bottom:4px}
+.timeline{text-align:left;margin-top:20px}
+.item{border-left:2px solid var(--accent);padding:0 0 18px 18px;margin-left:7px}
+.item:last-child{border-left-color:transparent}
+.final{font-size:1.22rem}
+.float-heart{position:fixed;bottom:-30px;pointer-events:none;animation:float 5s linear forwards;opacity:.8}
+@keyframes float{to{transform:translateY(-110vh) rotate(20deg);opacity:0}}
+.footer{margin-top:18px;color:var(--muted);font-size:.78rem}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div id="app">
+
+<section class="screen active">
+  <div class="card">
+    <div class="heart">❤️</div>
+    <div class="badge">GEM PRESENTS</div>
+    <h1>BUJJI<br>DATE REPLAY</h1>
+    <p>One ordinary day…<br>that became special because <b>you were there.</b></p>
+    <button onclick="next()">▶ Tap to replay today</button>
+    <div class="footer">A tiny memory made especially for Bujji</div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">👀</div>
+    <div class="badge">SCENE 01</div>
+    <h2>There she was…</h2>
+    <p>Gem saw his Bujji.</p>
+    <p>Those cute Kajal eyes… 👀<br>That beautiful smile… 😊</p>
+    <p class="small">Replay paused for 3 seconds because Gem forgot what he was saying. 😂❤️</p>
+    <button onclick="next()">Continue ❤️</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">☕</div>
+    <div class="badge">SCENE 02</div>
+    <h2>Our little date</h2>
+    <p>A small date.<br>Nothing extraordinary.</p>
+    <p>Just <b>you + me + a little time together.</b></p>
+    <p>And somehow… that was enough to make the whole day special. ❤️</p>
+    <button onclick="next()">Replay the moment</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">💗</div>
+    <div class="badge">SCENE 03</div>
+    <h2>The moment Gem keeps replaying</h2>
+    <p class="small">Tap the heart to replay it…</p>
+    <button class="choice" onclick="reveal('r1')">❤️ REPLAY</button>
+    <div id="r1" class="reveal">
+      <p>Bujji smiling →<br>Gem looking at Bujji →<br>Gem smiling like an idiot →<br>Bujji being cute →<br><b>Gem falling in love again. ❤️</b></p>
+      <button onclick="next()">Next 👀</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">👀</div>
+    <div class="badge">SCENE 04</div>
+    <h2>The Eyes</h2>
+    <p><b>CAUTION ⚠️</b></p>
+    <div class="stats">
+      <div class="stat"><b>∞</b>staring</div>
+      <div class="stat"><b>100%</b>affected</div>
+      <div class="stat"><b>999%</b>missing</div>
+      <div class="stat"><b>1</b>Bujji</div>
+    </div>
+    <p>Looking into Bujji's eyes may cause sudden smiling, missing Bujji, and wanting another date. 🥹❤️</p>
+    <button onclick="next()">Next 😊</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">😊</div>
+    <div class="badge">SCENE 05</div>
+    <h2>The Smile</h2>
+    <p>That smile…</p>
+    <p>Gem doesn't know how you do it, Bujji.</p>
+    <p>But one little smile from you can stay in my mind for hours. ❤️</p>
+    <button onclick="next()">One last scene…</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">🥺</div>
+    <div class="badge">FINAL SCENE</div>
+    <h2>The Unexpected Ending</h2>
+    <p class="small">DATE REPLAY COMPLETE</p>
+    <div class="stats">
+      <div class="stat"><b>❤️</b>Memories saved</div>
+      <div class="stat"><b>100%</b>Happiness</div>
+    </div>
+    <p>Gem thought meeting Bujji today would make him miss her less.</p>
+    <p><b>It did the exact opposite.</b> 🥺</p>
+    <button onclick="next()">Find out why…</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="card">
+    <div class="scene-icon">🌙</div>
+    <div class="badge">GEM'S HEART</div>
+    <p class="final">Now I want to see those eyes again.<br>Hear that voice again.<br>See that beautiful smile again.<br>And just sit beside my Bujji again. ❤️</p>
+    <p class="final"><b>Meeting you doesn't reduce my love for you.<br>It makes me want another moment with you.</b></p>
+    <button onclick="next()">🔄 Replay date again</button>
+    <button class="secondary" onclick="hug()">🤗 One secret button</button>
+    <div id="hug" class="reveal">
+      <p class="final"><b>💥 SURPRISE!<br>VIRTUAL HUG DELIVERED 🤗❤️</b></p>
+      <p>Gem is currently holding Bujji very tightly in his imagination. 🫶</p>
+      <p><b>I love you, Bujji. ❤️</b></p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+let i=0;
+const screens=[...document.querySelectorAll('.screen')];
+const progress=document.getElementById('progress');
+function update(){
+  screens.forEach((s,n)=>s.classList.toggle('active',n===i));
+  progress.style.width=((i)/(screens.length-1)*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function next(){ i=(i+1)%screens.length; update(); burst(); }
+function reveal(id){document.getElementById(id).classList.add('show');burst();}
+function hug(){document.getElementById('hug').classList.add('show');for(let k=0;k<18;k++)setTimeout(burst,k*90);}
+function burst(){
+  for(let k=0;k<4;k++){
+    const h=document.createElement('div'); h.className='float-heart'; h.textContent=['❤️','💗','💕','🫶'][Math.floor(Math.random()*4)];
+    h.style.left=(10+Math.random()*80)+'%'; h.style.fontSize=(18+Math.random()*18)+'px'; h.style.animationDuration=(3.5+Math.random()*2)+'s';
+    document.body.appendChild(h); setTimeout(()=>h.remove(),6000);
+  }
+}
+update();
+</script>
+</body>
+</html>
